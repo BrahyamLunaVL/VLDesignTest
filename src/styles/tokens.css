@@ -1,0 +1,51 @@
+/* Design tokens extracted from the "B.P. Design System" Figma file.
+   Shared across components — add new tokens here, not inline in a component's CSS. */
+:root {
+  /* Brand colors */
+  --color-brand-primary: #c32059;
+  --color-brand-secondary: #6f1d5d;
+  --color-brand-black: #263238;
+  --color-brand-white: #ffffff;
+  --gradient-brand: linear-gradient(
+    to right,
+    var(--color-brand-primary),
+    var(--color-brand-secondary)
+  );
+
+  /* Fucsia scale */
+  --color-fucsia-100: #f9e9ee;
+  --color-fucsia-200: #f6dee6;
+  --color-fucsia-300: #f0c7d5;
+  --color-fucsia-400: #e7a6bd;
+  --color-fucsia-600: #aa2059;
+
+  /* Gray scale */
+  --color-gray-200: #ececef;
+  --color-gray-400: #bbbbbb;
+
+  /* Semantic colors */
+  --color-green-500: #21a184;
+  --color-green-600: #176d5a;
+  --color-red-500: #de1515;
+  --color-red-600: #9c1212;
+
+  /* Typography */
+  --font-family-roboto: 'Roboto', system-ui, sans-serif;
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+
+  /* Spacing */
+  --spacing-gap-xs: 4px;
+  --padding-5xs: 2px;
+  --padding-3xs: 6px;
+  --padding-xs: 10px;
+  --padding-sm: 12px;
+
+  /* Radius */
+  --radius-md: 18px;
+  --radius-lg: 20px;
+
+  /* Icon sizes */
+  --icon-size-sm: 12px;
+  --icon-size-md: 16px;
+}

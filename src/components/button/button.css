@@ -1,0 +1,218 @@
+/*
+ * Animation notes:
+ * The button's outer background can be a gradient (Primary variant) or a solid
+ * color depending on state. Browsers cannot smoothly interpolate between a
+ * gradient and a solid `background`, so animating `background` directly
+ * produces an instant "flash" instead of a fade.
+ *
+ * Fix: the default background is painted on `.button` itself (no transition
+ * needed there). The hover/focus backgrounds live on `::before`/`::after`
+ * pseudo-elements stacked on top, and only their `opacity` is animated —
+ * opacity always interpolates smoothly regardless of what's underneath.
+ */
+
+.button {
+  --btn-border-default: transparent;
+  --btn-border-hover: transparent;
+  --btn-border-focus: transparent;
+
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: var(--padding-5xs);
+  border: none;
+  border-radius: var(--radius-lg);
+  background: var(--btn-bg-default);
+  cursor: pointer;
+  font-family: var(--font-family-roboto);
+}
+
+.button::before,
+.button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.button::before {
+  background: var(--btn-bg-hover);
+}
+
+.button::after {
+  background: var(--btn-bg-focus);
+  z-index: 1;
+}
+
+.button:not(:disabled):hover::before {
+  opacity: 1;
+}
+
+.button:not(:disabled):focus-visible::after,
+.button:not(:disabled):active::after {
+  opacity: 1;
+}
+
+.button:disabled {
+  background: var(--color-gray-200);
+  cursor: not-allowed;
+}
+
+.button__inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-gap-xs);
+  border: 1px solid var(--btn-border-default);
+  border-radius: var(--radius-md);
+  color: var(--btn-color-default);
+  transition:
+    color 0.5s ease,
+    border-color 0.5s ease;
+}
+
+.button:not(:disabled):hover .button__inner {
+  color: var(--btn-color-hover);
+  border-color: var(--btn-border-hover);
+}
+
+.button:not(:disabled):focus-visible .button__inner,
+.button:not(:disabled):active .button__inner {
+  color: var(--btn-color-focus);
+  border-color: var(--btn-border-focus);
+}
+
+.button:disabled .button__inner {
+  color: var(--color-gray-400);
+  border-color: transparent;
+}
+
+.button__text {
+  white-space: nowrap;
+  line-height: normal;
+}
+
+.button__text--bold {
+  font-weight: 700;
+}
+
+.button__text--regular {
+  font-weight: 400;
+  color: var(--color-brand-black);
+}
+
+.button:disabled .button__text--regular {
+  color: var(--color-gray-400);
+}
+
+/* Shape: a button with no text is icon-only and becomes a circle;
+   any button with text stretches horizontally as a pill. */
+.button--pill .button__inner {
+  padding: 0 var(--padding-sm);
+}
+
+.button--round {
+  border-radius: 50%;
+}
+.button--round .button__inner {
+  flex: none;
+  border-radius: 50%;
+}
+
+/* Sizes */
+.button--medium .button__inner {
+  padding-block: var(--padding-xs);
+}
+.button--medium.button--round .button__inner {
+  padding: var(--padding-xs);
+}
+.button--medium .button__text {
+  font-size: var(--font-size-sm);
+}
+
+.button--small .button__inner {
+  padding-block: var(--padding-3xs);
+}
+.button--small.button--round .button__inner {
+  padding: var(--padding-3xs);
+}
+.button--small .button__text {
+  font-size: var(--font-size-xs);
+}
+
+/* Variants */
+.button--primary {
+  --btn-bg-default: var(--gradient-brand);
+  --btn-bg-hover: var(--color-fucsia-600);
+  --btn-bg-focus: var(--gradient-brand);
+  --btn-color-default: var(--color-brand-white);
+  --btn-color-hover: var(--color-brand-white);
+  --btn-color-focus: var(--color-brand-white);
+  --btn-border-hover: var(--color-brand-white);
+  --btn-border-focus: var(--color-brand-white);
+}
+
+.button--secondary {
+  --btn-bg-default: var(--color-fucsia-200);
+  --btn-bg-hover: var(--color-fucsia-300);
+  --btn-bg-focus: var(--color-fucsia-200);
+  --btn-color-default: var(--color-brand-primary);
+  --btn-color-hover: var(--color-brand-primary);
+  --btn-color-focus: var(--color-brand-primary);
+  --btn-border-focus: var(--color-brand-primary);
+}
+
+.button--tertiary {
+  --btn-bg-default: var(--color-brand-white);
+  --btn-bg-hover: var(--color-brand-white);
+  --btn-bg-focus: var(--color-fucsia-100);
+  --btn-color-default: var(--color-brand-primary);
+  --btn-color-hover: var(--color-brand-primary);
+  --btn-color-focus: var(--color-brand-primary);
+  --btn-border-default: var(--color-fucsia-400);
+  --btn-border-hover: var(--color-brand-primary);
+  --btn-border-focus: var(--color-brand-primary);
+}
+
+.button--ghost {
+  --btn-bg-default: transparent;
+  --btn-bg-hover: transparent;
+  --btn-bg-focus: transparent;
+  --btn-color-default: var(--color-brand-primary);
+  --btn-color-hover: var(--color-fucsia-600);
+  --btn-color-focus: var(--color-brand-secondary);
+}
+.button--ghost:disabled {
+  background: transparent;
+}
+
+.button--success {
+  --btn-bg-default: var(--color-green-500);
+  --btn-bg-hover: var(--color-green-600);
+  --btn-bg-focus: var(--color-green-600);
+  --btn-color-default: var(--color-brand-white);
+  --btn-color-hover: var(--color-brand-white);
+  --btn-color-focus: var(--color-brand-white);
+  --btn-border-focus: var(--color-brand-white);
+}
+
+.button--error {
+  --btn-bg-default: var(--color-red-500);
+  --btn-bg-hover: var(--color-red-600);
+  --btn-bg-focus: var(--color-red-600);
+  --btn-color-default: var(--color-brand-white);
+  --btn-color-hover: var(--color-brand-white);
+  --btn-color-focus: var(--color-brand-white);
+  --btn-border-focus: var(--color-brand-white);
+}
