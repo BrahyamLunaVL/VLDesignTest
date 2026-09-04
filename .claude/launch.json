@@ -18,6 +18,12 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["http-server", "storybook-static", "-p", "6007", "-s"],
       "port": 6007
+    },
+    {
+      "name": "dist-preview",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "preview", "--", "--port", "4173"],
+      "port": 4173
     }
   ]
 }
